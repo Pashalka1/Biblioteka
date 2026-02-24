@@ -76,21 +76,21 @@ dotnet run
 
 ```
 LibraryAPI/
-├── Program.cs              # App konfigurācija, middleware, DI
-├── appsettings.json        # JWT, DB connection string
+├── Program.cs                          # App konfigurācija, middleware, DI
+├── appsettings.json                    # JWT, DB connection string
 ├── Models/
-│   └── Models.cs           # User, Author, Category, Book, Loan
+│   └── Models.cs                       # User, Author, Category, Book, Loan
 ├── Data/
-│   └── LibraryDbContext.cs # EF DbContext + seed dati
+│   └── LibraryDbContext.cs             # EF DbContext + seed dati
 ├── DTOs/
-│   └── DTOs.cs             # Request/Response objekti
+│   └── DTOs.cs                         # Request/Response objekti
 ├── Services/
-│   └── JwtService.cs       # JWT tokenu ģenerēšana
+│   └── JwtService.cs                   # JWT tokenu ģenerēšana
 └── Controllers/
-    ├── AuthController.cs           # /api/auth/*
-    ├── BooksController.cs          # /api/books/*
-    ├── AuthorsCategoriesController.cs # /api/authors/*, /api/categories/*
-    └── LoansController.cs          # /api/loans/*
+    ├── AuthController.cs               # /api/auth/*
+    ├── BooksController.cs              # /api/books/*
+    ├── AuthorsCategoriesController.cs  # /api/authors/*, /api/categories/*
+    └── LoansController.cs              # /api/loans/*
 ```
 
 ## 🛡️ Lomas
