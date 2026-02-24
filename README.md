@@ -69,7 +69,7 @@ dotnet run
    { "email": "admin@library.lv", "password": "Admin123!" }
    ```
 2. Saņem tokenu: `eyJhbGciOiJIUzI1NiIs...`
-3. Swagger UI: klikšķini **Authorize** 🔒 → ievadi `Bearer <tokens>`
+3. Swagger UI: klikšķini **Authorize** 🔒 → ievadi `tokenu`
 4. Tagad vari izsaukt aizsargātos endpointus!
 
 ## 🏗️ Projekta struktūra
