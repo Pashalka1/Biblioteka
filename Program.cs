@@ -39,10 +39,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo
+    c.SwaggerDoc("v3", new OpenApiInfo
     {
-        Title = "📚 API E-ibliotēka",
-        Version = "v1",
+        Title = "📚 API Bibliotēka",
+        Version = "v3",
         Description = "REST API bibliotēka grāmatu (Books), autoru (Authors), kategoriju (Categories) un aizdevumu (Loans) pārvaldībai.<br /><br />" +
                       "Padomi aplikācijas lietošanai:<br />"+
                       "  • Izveidojiet jaunu lietotāju --> POST/api/auth/register.<br />"+
@@ -94,9 +94,9 @@ using (var scope = app.Services.CreateScope())
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bibliotēka API v1");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bibliotēka API v3");
     c.RoutePrefix = string.Empty; // Swagger pieejams uz /
-    c.DocumentTitle = "📚 API E-ibliotēka";
+    c.DocumentTitle = "📚 API Bbliotēka";
 });
 
 app.UseAuthentication();
