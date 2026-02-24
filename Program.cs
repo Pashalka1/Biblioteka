@@ -94,7 +94,7 @@ using (var scope = app.Services.CreateScope())
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bibliotēka API v3");
+    c.SwaggerEndpoint("/swagger/v3/swagger.json", "Bibliotēka API v3");
     c.RoutePrefix = string.Empty; // Swagger pieejams uz /
     c.DocumentTitle = "📚 API Bbliotēka";
 });
