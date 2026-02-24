@@ -43,12 +43,12 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "📚 API E-ibliotēka",
         Version = "v1",
-        Description = "REST API bibliotēka grāmatu (Books), autoru (Authors), kategoriju (Categories) un aizdevumu (Loans) pārvaldībai. " +
-                      "Padomi aplikācijas lietošanai:"+
-                      "  • Izveidojiet jaunu lietotāju --> POST/api/auth/register."+
-                      "  • Ienāciet sistēmā, izmantojot tikko izveidotā lietotāja datus (vai admina datus, kas ir priekšiestatīti) --> POST/api/auth/login."+
-                      "  • Nokopējiet JWT Bearer tokenu, ko atgriež šī metode, autorizējieties ar to --> zaļā poga 'Authorize'"+
-                      "  • Baudiet bibliotēkas funkcionalitāti! Mēs iepriekš iestatījām datu bāzēs divas grāmatas dažādās kategorijās."+
+        Description = "REST API bibliotēka grāmatu (Books), autoru (Authors), kategoriju (Categories) un aizdevumu (Loans) pārvaldībai.<br /><br />" +
+                      "Padomi aplikācijas lietošanai:<br />"+
+                      "  • Izveidojiet jaunu lietotāju --> POST/api/auth/register.<br />"+
+                      "  • Ienāciet sistēmā, izmantojot tikko izveidotā lietotāja datus (vai admina datus, kas ir priekšiestatīti) --> POST/api/auth/login.<br />"+
+                      "  • Nokopējiet JWT Bearer tokenu, ko atgriež šī metode, autorizējieties ar to --> zaļā poga 'Authorize'<br />"+
+                      "  • Baudiet bibliotēkas funkcionalitāti! Mēs iepriekš iestatījām datu bāzēs divas grāmatas dažādās kategorijās.<br />"+
                       "  • Precīzāk programmas darbība ir aprakstīta prezentācijā.",
         Contact = new OpenApiContact { Name = "E-bibliotēkas atbalsta komanda - uzklikšķiniet virsū, lai sazinātos ar mums! (šīs ē-pasts mums nepieder un varbūt pat neeksistē, tas ir pievienots Swagger iespēju lietošanas demonstrācijai).", Email = "info@library.lv" }
     });
