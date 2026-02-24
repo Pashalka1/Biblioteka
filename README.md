@@ -2,7 +2,7 @@
 
 ASP.NET Core 8 Web API ar EntityFramework, SQLite, Swagger un JWT autentifikāciju.
 
-## 🗄️ Datubāzes struktūra (4 tabulas)
+## 🗄️ Datubāzes struktūra (5 tabulas)
 
 | Tabula | Apraksts |
 |--------|----------|
