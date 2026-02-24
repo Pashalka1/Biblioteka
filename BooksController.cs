@@ -17,18 +17,6 @@ public class BooksController : ControllerBase
 
     public BooksController(LibraryDbContext db) => _db = db;
 
-    /// <summary>Iegūst visu grāmatu sarakstu</summary>
-    /// <remarks>
-    /// Atgriež visas grāmatas ar autora un kategorijas informāciju.
-    /// Var filtrēt pēc nosaukuma/autora un kategorijas:
-    ///
-    ///     GET /api/books
-    ///     GET /api/books?search=Rainis
-    ///     GET /api/books?categoryId=1
-    ///     GET /api/books?search=uguns&amp;categoryId=1
-    ///
-    /// Pieprasa autentifikāciju (Bearer tokens).
-    /// </remarks>
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<BookDto>), 200)]
     [ProducesResponseType(401)]
@@ -63,14 +51,6 @@ public class BooksController : ControllerBase
         return Ok(books);
     }
 
-    /// <summary>Iegūst grāmatu pēc ID</summary>
-    /// <remarks>
-    /// Atgriež konkrētu grāmatu ar pilnu informāciju. Piemērs:
-    ///
-    ///     GET /api/books/1
-    ///
-    /// Pieprasa autentifikāciju (Bearer tokens).
-    /// </remarks>
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(BookDto), 200)]
     [ProducesResponseType(401)]
@@ -99,23 +79,6 @@ public class BooksController : ControllerBase
         });
     }
 
-    /// <summary>Pievieno jaunu grāmatu</summary>
-    /// <remarks>
-    /// Pieprasa Librarian vai Admin lomu. Piemērs:
-    ///
-    ///     POST /api/books
-    ///     {
-    ///         "title": "Uguns un nakts",
-    ///         "isbn": "978-9984-00-001-1",
-    ///         "publishedYear": 1905,
-    ///         "totalCopies": 3,
-    ///         "description": "Leģendārā Raiņa luga",
-    ///         "authorId": 1,
-    ///         "categoryId": 1
-    ///     }
-    ///
-    /// Validācija: nosaukums obligāts, gads 1000–2100, eksemplāri 1–1000.
-    /// </remarks>
     [HttpPost]
     [Authorize(Roles = "Librarian,Admin")]
     [ProducesResponseType(typeof(BookDto), 201)]
@@ -159,5 +122,77 @@ public class BooksController : ControllerBase
             AuthorName = book.Author.FirstName + " " + book.Author.LastName,
             CategoryName = book.Category.Name
         });
+    }
+
+    [HttpPut("{id}")]
+    [Authorize(Roles = "Librarian,Admin")]
+    [ProducesResponseType(typeof(BookDto), 200)]
+    [ProducesResponseType(typeof(object), 400)]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(403)]
+    [ProducesResponseType(404)]
+    public async Task<IActionResult> Update(int id, [FromBody] CreateBookRequest req)
+    {
+        var book = await _db.Books.FirstOrDefaultAsync(b => b.Id == id);
+        if (book == null)
+            return NotFound(new { message = "Grāmata nav atrasta." });
+
+        if (!await _db.Authors.AnyAsync(a => a.Id == req.AuthorId))
+            return BadRequest(new { message = "Autors nav atrasts." });
+
+        if (!await _db.Categories.AnyAsync(c => c.Id == req.CategoryId))
+            return BadRequest(new { message = "Kategorija nav atrasta." });
+
+        var activeLoans = await _db.Loans.CountAsync(l => l.BookId == id && l.Status == "Active");
+        if (req.TotalCopies < activeLoans)
+            return BadRequest(new { message = $"Nevar iestatīt TotalCopies={req.TotalCopies}, jo ir {activeLoans} aktīvi aizdevumi." });
+
+        book.Title = req.Title;
+        book.ISBN = req.ISBN;
+        book.PublishedYear = req.PublishedYear;
+        book.Description = req.Description;
+        book.AuthorId = req.AuthorId;
+        book.CategoryId = req.CategoryId;
+        book.TotalCopies = req.TotalCopies;
+        book.AvailableCopies = req.TotalCopies - activeLoans;
+
+        await _db.SaveChangesAsync();
+        await _db.Entry(book).Reference(b => b.Author).LoadAsync();
+        await _db.Entry(book).Reference(b => b.Category).LoadAsync();
+
+        return Ok(new BookDto
+        {
+            Id = book.Id,
+            Title = book.Title,
+            ISBN = book.ISBN,
+            PublishedYear = book.PublishedYear,
+            AvailableCopies = book.AvailableCopies,
+            TotalCopies = book.TotalCopies,
+            Description = book.Description,
+            AuthorName = book.Author.FirstName + " " + book.Author.LastName,
+            CategoryName = book.Category.Name
+        });
+    }
+
+    [HttpDelete("{id}")]
+    [Authorize(Roles = "Librarian,Admin")]
+    [ProducesResponseType(typeof(object), 200)]
+    [ProducesResponseType(typeof(object), 400)]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(403)]
+    [ProducesResponseType(404)]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var book = await _db.Books.FirstOrDefaultAsync(b => b.Id == id);
+        if (book == null)
+            return NotFound(new { message = "Grāmata nav atrasta." });
+
+        var hasActive = await _db.Loans.AnyAsync(l => l.BookId == id && l.Status == "Active");
+        if (hasActive)
+            return BadRequest(new { message = "Grāmatu nevar dzēst, jo ir aktīvi aizdevumi." });
+
+        _db.Books.Remove(book);
+        await _db.SaveChangesAsync();
+        return Ok(new { message = "Grāmata dzēsta." });
     }
 }
