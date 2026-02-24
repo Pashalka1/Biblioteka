@@ -14,7 +14,7 @@ ASP.NET Core 8 Web API ar EntityFramework, SQLite, Swagger un JWT autentifikāci
 
 ## 🔗 API Endpointi
 
-### 🔐 Autentifikācija
+### 🔐 Autentifikācija 
 | Metode | URL | Apraksts |
 |--------|-----|----------|
 | POST | `/api/auth/register` | Reģistrācija |
@@ -62,7 +62,7 @@ dotnet run
 # http://localhost:5000
 ```
 
-## 🔑 JWT Autentifikācija
+## 🔑 JWT Administratoriskā autentifikācija
 
 1. Izsauc `POST /api/auth/login` ar:
    ```json
