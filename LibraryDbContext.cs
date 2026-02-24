@@ -47,5 +47,18 @@ public class LibraryDbContext : DbContext
                 CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc)
             }
         );
+
+                // Seed libarian user (password: Admin123!)
+        modelBuilder.Entity<User>().HasData(
+            new User
+            {
+                Id = 2,
+                Name = "Bibliotekārs",
+                Email = "librarian@library.lv",
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("Librarian123!"),
+                Role = "Librarian",
+                CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+            }
+        );
     }
 }
