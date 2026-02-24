@@ -21,11 +21,13 @@ ASP.NET Core 8 Web API ar EntityFramework, SQLite, Swagger un JWT autentifikāci
 | POST | `/api/auth/login` | Pieslēgšanās → JWT tokens |
 
 ### 📖 Grāmatas
-| Metode | URL | Autorizācija |
-|--------|-----|--------------|
-| GET | `/api/books` | Publiski (atbalsta `?search=` un `?categoryId=`) |
-| GET | `/api/books/{id}` | Publiski |
-| POST | `/api/books` | Librarian, Admin |
+Metode | URL | Autorizācija
+-------|-----|--------------
+GET    | /api/books            | Publiski (atbalsta ?search= un ?categoryId=)
+GET    | /api/books/{id}       | Publiski
+POST   | /api/books            | Librarian, Admin
+PUT    | /api/books/{id}       | Librarian, Admin
+DELETE | /api/books/{id}       | Librarian, Admin
 
 ### 👤 Autori
 | Metode | URL | Autorizācija |
@@ -94,7 +96,7 @@ LibraryAPI/
 ## 🛡️ Lomas
 
 - **Reader** – var skatīt grāmatas, aizņemties, atgriezt savas grāmatas
-- **Librarian** – var pievienot grāmatas un autorus, redz visus aizdevumus
+- **Librarian** – var pievienot, rediģēt un dzēst grāmatas, pievienot autorus, redz visus aizdevumus
 - **Admin** – pilna piekļuve, var pievienot kategorijas
 
 ## 📦 Izmantotās tehnoloģijas
